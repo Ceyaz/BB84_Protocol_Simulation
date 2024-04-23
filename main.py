@@ -8,7 +8,7 @@ class Application(tk.Tk):
 
     def initialize_ui(self):
         self.title("Simulation du protocole BB84")
-        self.geometry("1000x800")  # Ajustez la taille selon vos besoins
+        self.geometry("1000x700")  # Ajustez la taille selon vos besoins
 
         # Créez un Canvas et une Scrollbar
         self.canvas = tk.Canvas(self)
@@ -119,8 +119,33 @@ class Application(tk.Tk):
         states_label = tk.Label(self.frame_controls, text=quantum_states_str, font=("TkDefaultFont", 23))
         states_label.pack()
 
+        tk.Label(self.frame_controls, height=1).pack()
+
+        # Choix d'un intercepteur ou non
+        self.intercept_choice_frame = tk.Frame(self.frame_controls)
+        self.intercept_choice_frame.pack(pady=10)
+
+        choix_intercept_label = tk.Label(self.intercept_choice_frame, text="Souhaitez-vous qu'il y ait un intercepteur, Eve ?:\n", font=("TkDefaultFont", 13))
+        choix_intercept_label.pack()
+
+        buttons_frame = tk.Frame(self.intercept_choice_frame)
+        buttons_frame.pack(fill='x', expand=True)
+
+        self.btn_no_intercept = tk.Button(self.intercept_choice_frame, text="Non", command=self.bob_choice_no_intercept)
+        self.btn_no_intercept.pack(side=tk.LEFT, padx=10, expand=True)
+
+        self.btn_intercept = tk.Button(self.intercept_choice_frame, text="Oui", command=self.bob_choice_intercept)
+        self.btn_intercept.pack(side=tk.LEFT, padx=10, expand=True)
+
+    def bob_choice_no_intercept(self):
+
+        self.intercept_choice_frame.destroy()
+
+        message_label = tk.Label(self.frame_controls, text="Vous avez décidé de continuer la simulation en choisissant l'option 'Sans intercepteur'.", font=("TkDefaultFont", 13), fg="red")
+        message_label.pack(pady=10)
+
         # Cadre pour les bases de Bob
-        frame_bases = tk.Frame(self.scrollable_frame)
+        frame_bases = tk.Frame(self.scrollable_frame)       
         frame_bases.pack(pady=10)
         tk.Label(frame_bases, text="Bases de Bob:").grid(row=0, columnspan=13)
         # Bouton pour choisir les bases aléatoirement
@@ -221,8 +246,8 @@ class Application(tk.Tk):
         print("Bits de Bob après filtrage:", bits_bob_str)
 
         # Création des labels pour l'affichage
-        filtered_alice_label = tk.Label(self.frame_controls, text=f"Bits d'Alice: {bits_alice_str}", font=("TkDefaultFont", 13))
-        filtered_bob_label = tk.Label(self.frame_controls, text=f"Bits de Bob: {bits_bob_str}", font=("TkDefaultFont", 13))
+        filtered_alice_label = tk.Label(self.frame_controls, text=f"Bits d'Alice après filtrage: {bits_alice_str}", font=("TkDefaultFont", 13))
+        filtered_bob_label = tk.Label(self.frame_controls, text=f"Bits de Bob après filtrage: {bits_bob_str}", font=("TkDefaultFont", 13))
 
         filtered_alice_label.pack()
         filtered_bob_label.pack()
@@ -233,8 +258,15 @@ class Application(tk.Tk):
                                             command=self.conclusion_no_intercept)
         self.btn_conclusion_no_intercept.pack()
 
+        tk.Label(self.frame_controls, height=1).pack()
+
     def conclusion_no_intercept(self):
         self.btn_conclusion_no_intercept.pack_forget()
+
+        conclusion_label = tk.Label(self.frame_controls, text="Conclusion de la simulation:",
+                               font=("TkDefaultFont", 18), fg="red")
+        conclusion_label.pack()
+
         explanation_text = (
             "Lorsque la communication n'a pas été interceptée, Alice et Bob ont "
             "des séquences de bits identiques pour les bases correspondantes. Pour "
@@ -257,6 +289,9 @@ class Application(tk.Tk):
         self.btn_reload_simulation.pack()
 
         tk.Label(self.frame_controls, height=2).pack()
+
+    def bob_choice_intercept(self):
+        print("Intercepteur choisi!")
 
     def reload_simulation(self):
         self.destroy()
