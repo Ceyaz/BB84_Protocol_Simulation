@@ -32,19 +32,23 @@ class Application(tk.Tk):
 
     def create_widgets(self):
 
-        titre_label = tk.Label(self.scrollable_frame, text="Protocole BB84\n",
-                               font=("TkDefaultFont", 22))
+        titre_label = tk.Label(self.scrollable_frame, text="Protocole BB84",
+                               font=("TkDefaultFont", 22, "bold"))
         titre_label.pack(padx=10, pady=10)
+        text1_label = tk.Label(self.scrollable_frame, text="Alice souhaite envoyer une série de bits à Bob de manière sécurisée. Pour cela, elle utilise le protocole BB84, un protocole de cryptographie quantique. Alice choisit aléatoirement une séquence de bits et une base pour chaque bit.",
+                               font=("TkDefaultFont", 14, "bold"), wraplength=600)
+        text1_label.pack(padx=10, pady=10)
+        text2_label = tk.Label(self.scrollable_frame, text="Cliquez sur 'Choix aléatoire' pour générer aléatoirement les bits et les bases d'Alice. Une fois les bits et les bases choisis, cliquez sur le bouton 'Envoi des qubits' pour continuer la simulation.",
+                               font=("TkDefaultFont", 13, "italic"), wraplength=600, fg="blue")
+        text2_label.pack()
     
         # Cadre pour les bits d'Alice
         frame_bits = tk.Frame(self.scrollable_frame)
         frame_bits.pack(pady=10)
         tk.Label(frame_bits, text="Bits d'Alice:").grid(row=0, columnspan=13)
-        
         # Bouton pour choisir les bits aléatoirement
         self.btn_random_bits_alice = tk.Button(frame_bits, text="Choix aléatoire", command=self.randomize_bits_alice)
         self.btn_random_bits_alice.grid(row=1, column=12)  # Positionnement du bouton
-
         self.bits_buttons_alice = self.create_bit_buttons(frame_bits, self.update_bit_alice, 1, ['0', '1'])
 
         # Cadre pour les bases d'Alice
@@ -111,17 +115,20 @@ class Application(tk.Tk):
             btn.config(state=tk.DISABLED)
         self.btn_random_bases_alice.config(state=tk.DISABLED)
         self.btn_random_bits_alice.config(state=tk.DISABLED)
-
         self.btn_send_qubits.pack_forget()
 
         print("Simulation lancée!")
+        text3_label = tk.Label(self.frame_controls, text="En fonction des bits et des bases choisis, Alice génère différents états quantiques.",
+                               font=("TkDefaultFont", 14, "bold"))
+        text3_label.pack()
         intro_label = tk.Label(self.frame_controls, text="États quantiques d'Alice envoyés:\n",
-                               font=("TkDefaultFont", 13))
+                               font=("TkDefaultFont", 14, "bold"))
         intro_label.pack()
 
         # Génération et affichage des états quantiques avec une taille de police plus grande
         quantum_states_str = "   ".join(self.translate_to_quantum_states())
-        states_label = tk.Label(self.frame_controls, text=quantum_states_str, font=("TkDefaultFont", 23))
+        quantum_states_str_left = quantum_states_str + "                 "
+        states_label = tk.Label(self.frame_controls, text=quantum_states_str_left, font=("TkDefaultFont", 23))
         states_label.pack()
 
         tk.Label(self.frame_controls, height=1).pack()
@@ -130,17 +137,20 @@ class Application(tk.Tk):
         self.intercept_choice_frame = tk.Frame(self.frame_controls)
         self.intercept_choice_frame.pack(pady=10)
 
-        choix_intercept_label = tk.Label(self.intercept_choice_frame, text="Souhaitez-vous qu'il y ait un intercepteur, Eve ?:\n", font=("TkDefaultFont", 13))
+        choix_intercept_exp_label = tk.Label(self.intercept_choice_frame, text="Lors d'une communication quantique, il est possible qu'un intercepteur (nommé Eve par la suite) tente de lire les qubits envoyés par Alice.", 
+                                             font=("TkDefaultFont", 14, "bold"), wraplength=600)
+        choix_intercept_exp_label.pack()
+        choix_intercept_label = tk.Label(self.intercept_choice_frame, text="Dans notre simulation, souhaitez-vous qu'il y ait un intercepteur, Eve ?:\n", font=("TkDefaultFont", 13, "italic"), wraplength=600, fg="blue")
         choix_intercept_label.pack()
 
         buttons_frame = tk.Frame(self.intercept_choice_frame)
         buttons_frame.pack(fill='x', expand=True)
 
         self.btn_no_intercept = tk.Button(self.intercept_choice_frame, text="Non", command=self.bob_choice_no_intercept)
-        self.btn_no_intercept.pack(side=tk.LEFT, padx=10, expand=True)
+        self.btn_no_intercept.pack(side=tk.LEFT, expand=True)
 
         self.btn_intercept = tk.Button(self.intercept_choice_frame, text="Oui", command=self.eve_intercept)
-        self.btn_intercept.pack(side=tk.LEFT, padx=10, expand=True)
+        self.btn_intercept.pack(side=tk.LEFT, expand=True)
 
     def bob_choice_no_intercept(self):
 
@@ -148,8 +158,15 @@ class Application(tk.Tk):
 
         self.intercept_choice_frame.destroy()
 
-        message_label = tk.Label(self.frame_controls, text="Vous avez décidé de continuer la simulation en choisissant l'option 'Sans intercepteur'.", font=("TkDefaultFont", 13), fg="red")
+        message_label = tk.Label(self.frame_controls, text="Vous avez décidé de continuer la simulation en choisissant l'option 'Sans intercepteur'.", font=("TkDefaultFont", 14, "bold"), fg="red")
         message_label.pack(pady=10)
+
+        text4_label = tk.Label(self.scrollable_frame, text="Bob reçoit les qubits envoyés par Alice et mesure les qubits en utilisant ses propres bases.",
+                               font=("TkDefaultFont", 14, "bold"), wraplength=600)
+        text4_label.pack(padx=10, pady=10)
+        text5_label = tk.Label(self.scrollable_frame, text="Cliquez sur 'Choix aléatoire' pour générer aléatoirement les bases de Bob. Une fois les bases choisis, cliquez sur le bouton 'Mesure des qubits par Bob' pour continuer la simulation.",
+                               font=("TkDefaultFont", 13, "italic"), wraplength=600, fg="blue")
+        text5_label.pack()
 
         # Cadre pour les bases de Bob
         frame_bases = tk.Frame(self.scrollable_frame)       
@@ -224,8 +241,15 @@ class Application(tk.Tk):
         self.intercept_choice_frame.destroy()
 
         # Message indiquant le choix d'Eve
-        message_label = tk.Label(self.frame_controls, text="Vous avez décidé de continuer la simulation avec un intercepteur (Eve).", font=("TkDefaultFont", 13), fg="red")
+        message_label = tk.Label(self.frame_controls, text="Vous avez décidé de continuer la simulation avec un intercepteur (Eve).", font=("TkDefaultFont", 14, "bold"), fg="red")
         message_label.pack(pady=10)
+
+        text4_label = tk.Label(self.scrollable_frame, text="Bob reçoit les qubits envoyés par Alice et mesure les qubits en utilisant ses propres bases.",
+                               font=("TkDefaultFont", 14, "bold"), wraplength=600)
+        text4_label.pack(padx=10, pady=10)
+        text5_label = tk.Label(self.scrollable_frame, text="Cliquez sur 'Choix aléatoire' pour générer aléatoirement les bases de Bob. Une fois les bases choisis, cliquez sur le bouton 'Mesure des qubits par Bob' pour continuer la simulation.",
+                               font=("TkDefaultFont", 13, "italic"), wraplength=600, fg="blue")
+        text5_label.pack()
 
         # Randomiser les bases pour Eve et simuler la mesure des qubits
         self.bases_eve = np.random.randint(2, size=12).tolist()
@@ -328,11 +352,7 @@ class Application(tk.Tk):
 
         # Texte explicatif
         explanation_text = (
-            "Alice et Bob comparent publiquement leurs bases et "
-            "ne conservent que les bits pour lesquels ils ont utilisé "
-            "la même base. Cela garantit que si l'information a été interceptée, "
-            "l'intercepteur ne peut pas connaître la clé secrète partagée car il "
-            "ne peut pas distinguer les bases utilisées pour chaque bit."
+            "Alice et Bob comparent publiquement leurs bases et ne conservent que les bits pour lesquels ils ont utilisé la même base. Car les bits restants sont censés être les mêmes pour Alice et Bob. Eve, l'intercepteur, a pu modifier certains bits, mais Alice et Bob ne peuvent pas savoir lesquels. Ils peuvent donc comparer les bits restants pour vérifier si la communication a été interceptée."
         )
         explanation_label = tk.Label(self.frame_controls, text=explanation_text, font=("TkDefaultFont", 13),
                                     justify=tk.CENTER, wraplength=600, 
