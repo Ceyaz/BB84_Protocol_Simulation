@@ -33,13 +33,13 @@ class Application(tk.Tk):
     def create_widgets(self):
 
         titre_label = tk.Label(self.scrollable_frame, text="Protocole BB84",
-                               font=("TkDefaultFont", 22, "bold"))
+                               font=("Tahoma", 22, "bold"))
         titre_label.pack(padx=10, pady=10)
         text1_label = tk.Label(self.scrollable_frame, text="Alice souhaite envoyer une série de bits à Bob de manière sécurisée. Pour cela, elle utilise le protocole BB84, un protocole de cryptographie quantique. Alice choisit aléatoirement une séquence de bits et une base pour chaque bit.",
-                               font=("TkDefaultFont", 14, "bold"), wraplength=600)
+                               font=("Tahoma", 14, "bold"), wraplength=700)
         text1_label.pack(padx=10, pady=10)
         text2_label = tk.Label(self.scrollable_frame, text="Cliquez sur 'Choix aléatoire' pour générer aléatoirement les bits et les bases d'Alice. Une fois les bits et les bases choisis, cliquez sur le bouton 'Envoi des qubits' pour continuer la simulation.",
-                               font=("TkDefaultFont", 13, "italic"), wraplength=600, fg="blue")
+                               font=("Tahoma", 13, "italic"), wraplength=700, fg="blue")
         text2_label.pack()
     
         # Cadre pour les bits d'Alice
@@ -119,10 +119,10 @@ class Application(tk.Tk):
 
         print("Simulation lancée!")
         text3_label = tk.Label(self.frame_controls, text="En fonction des bits et des bases choisis, Alice génère différents états quantiques.",
-                               font=("TkDefaultFont", 14, "bold"))
+                               font=("Tahoma", 14, "bold"))
         text3_label.pack()
         intro_label = tk.Label(self.frame_controls, text="États quantiques d'Alice envoyés:\n",
-                               font=("TkDefaultFont", 14, "bold"))
+                               font=("Tahoma", 14, "bold"))
         intro_label.pack()
 
         # Génération et affichage des états quantiques avec une taille de police plus grande
@@ -138,9 +138,9 @@ class Application(tk.Tk):
         self.intercept_choice_frame.pack(pady=10)
 
         choix_intercept_exp_label = tk.Label(self.intercept_choice_frame, text="Lors d'une communication quantique, il est possible qu'un intercepteur (nommé Eve par la suite) tente de lire les qubits envoyés par Alice.", 
-                                             font=("TkDefaultFont", 14, "bold"), wraplength=600)
+                                             font=("Tahoma", 14, "bold"), wraplength=700)
         choix_intercept_exp_label.pack()
-        choix_intercept_label = tk.Label(self.intercept_choice_frame, text="Dans notre simulation, souhaitez-vous qu'il y ait un intercepteur, Eve ?:\n", font=("TkDefaultFont", 13, "italic"), wraplength=600, fg="blue")
+        choix_intercept_label = tk.Label(self.intercept_choice_frame, text="Dans notre simulation, souhaitez-vous qu'il y ait un intercepteur, Eve ?:\n", font=("Tahoma", 13, "italic"), wraplength=700, fg="blue")
         choix_intercept_label.pack()
 
         buttons_frame = tk.Frame(self.intercept_choice_frame)
@@ -158,14 +158,14 @@ class Application(tk.Tk):
 
         self.intercept_choice_frame.destroy()
 
-        message_label = tk.Label(self.frame_controls, text="Vous avez décidé de continuer la simulation en choisissant l'option 'Sans intercepteur'.", font=("TkDefaultFont", 14, "bold"), fg="red")
+        message_label = tk.Label(self.frame_controls, text="Vous avez décidé de continuer la simulation en choisissant l'option 'Sans intercepteur'.", font=("Tahoma", 14, "bold"), fg="red")
         message_label.pack(pady=10)
 
         text4_label = tk.Label(self.scrollable_frame, text="Bob reçoit les qubits envoyés par Alice et mesure les qubits en utilisant ses propres bases.",
-                               font=("TkDefaultFont", 14, "bold"), wraplength=600)
+                               font=("Tahoma", 14, "bold"), wraplength=700)
         text4_label.pack(padx=10, pady=10)
         text5_label = tk.Label(self.scrollable_frame, text="Cliquez sur 'Choix aléatoire' pour générer aléatoirement les bases de Bob. Une fois les bases choisis, cliquez sur le bouton 'Mesure des qubits par Bob' pour continuer la simulation.",
-                               font=("TkDefaultFont", 13, "italic"), wraplength=600, fg="blue")
+                               font=("Tahoma", 13, "italic"), wraplength=700, fg="blue")
         text5_label.pack()
 
         # Cadre pour les bases de Bob
@@ -218,11 +218,11 @@ class Application(tk.Tk):
 
         # Affichage des résultats
         resultat_bob_label = tk.Label(self.frame_controls, text="Bits mesurés par Bob:\n",
-                               font=("TkDefaultFont", 13))
+                               font=("Tahoma", 13))
         resultat_bob_label.pack()
 
         results_str = "   ".join([str(bit) for bit in self.bits_bob])
-        states_label = tk.Label(self.frame_controls, text=results_str, font=("TkDefaultFont", 23))
+        states_label = tk.Label(self.frame_controls, text=results_str, font=("Tahoma", 23))
         states_label.pack()
 
         print("Mesure des qubits lancée!")
@@ -241,14 +241,14 @@ class Application(tk.Tk):
         self.intercept_choice_frame.destroy()
 
         # Message indiquant le choix d'Eve
-        message_label = tk.Label(self.frame_controls, text="Vous avez décidé de continuer la simulation avec un intercepteur (Eve).", font=("TkDefaultFont", 14, "bold"), fg="red")
+        message_label = tk.Label(self.frame_controls, text="Vous avez décidé de continuer la simulation avec un intercepteur (Eve).", font=("Tahoma", 14, "bold"), fg="red")
         message_label.pack(pady=10)
 
         text4_label = tk.Label(self.scrollable_frame, text="Bob reçoit les qubits envoyés par Alice et mesure les qubits en utilisant ses propres bases.",
-                               font=("TkDefaultFont", 14, "bold"), wraplength=600)
+                               font=("Tahoma", 14, "bold"), wraplength=700)
         text4_label.pack(padx=10, pady=10)
         text5_label = tk.Label(self.scrollable_frame, text="Cliquez sur 'Choix aléatoire' pour générer aléatoirement les bases de Bob. Une fois les bases choisis, cliquez sur le bouton 'Mesure des qubits par Bob' pour continuer la simulation.",
-                               font=("TkDefaultFont", 13, "italic"), wraplength=600, fg="blue")
+                               font=("Tahoma", 13, "italic"), wraplength=700, fg="blue")
         text5_label.pack()
 
         # Randomiser les bases pour Eve et simuler la mesure des qubits
@@ -261,12 +261,12 @@ class Application(tk.Tk):
                 self.bits_eve.append(np.random.randint(2))
 
         # Affichage des bases et des résultats d'Eve
-        #tk.Label(self.frame_controls, text="Bases d'Eve :", font=("TkDefaultFont", 13)).pack()
-        #self.bases_label = tk.Label(self.frame_controls, text="   ".join('+' if b == 0 else 'X' for b in self.bases_eve), font=("TkDefaultFont", 20), fg="black")
+        #tk.Label(self.frame_controls, text="Bases d'Eve :", font=("Tahoma", 13)).pack()
+        #self.bases_label = tk.Label(self.frame_controls, text="   ".join('+' if b == 0 else 'X' for b in self.bases_eve), font=("Tahoma", 20), fg="black")
         #self.bases_label.pack()
 
-        #tk.Label(self.frame_controls, text="Bits d'Eve :", font=("TkDefaultFont", 13)).pack()
-        #self.bits_label = tk.Label(self.frame_controls, text="   ".join(str(b) for b in self.bits_eve), font=("TkDefaultFont", 20), fg="black")
+        #tk.Label(self.frame_controls, text="Bits d'Eve :", font=("Tahoma", 13)).pack()
+        #self.bits_label = tk.Label(self.frame_controls, text="   ".join(str(b) for b in self.bits_eve), font=("Tahoma", 20), fg="black")
         #self.bits_label.pack()
 
         self.create_eve_results_mask()
@@ -330,11 +330,11 @@ class Application(tk.Tk):
 
         # Affichage des résultats
         resultat_bob_label = tk.Label(self.frame_controls, text="Bits mesurés par Bob:\n",
-                                    font=("TkDefaultFont", 13))
+                                    font=("Tahoma", 13))
         resultat_bob_label.pack()
 
         results_str = "   ".join([str(bit) for bit in self.bits_bob])
-        states_label = tk.Label(self.frame_controls, text=results_str, font=("TkDefaultFont", 23))
+        states_label = tk.Label(self.frame_controls, text=results_str, font=("Tahoma", 23))
         states_label.pack()
 
         print("Mesure des qubits avec interception lancée!")
@@ -354,13 +354,13 @@ class Application(tk.Tk):
         explanation_text = (
             "Alice et Bob comparent publiquement leurs bases et ne conservent que les bits pour lesquels ils ont utilisé la même base. Car les bits restants sont censés être les mêmes pour Alice et Bob. Eve, l'intercepteur, a pu modifier certains bits, mais Alice et Bob ne peuvent pas savoir lesquels. Ils peuvent donc comparer les bits restants pour vérifier si la communication a été interceptée."
         )
-        explanation_label = tk.Label(self.frame_controls, text=explanation_text, font=("TkDefaultFont", 13),
-                                    justify=tk.CENTER, wraplength=600, 
+        explanation_label = tk.Label(self.frame_controls, text=explanation_text, font=("Tahoma", 13),
+                                    justify=tk.CENTER, wraplength=700, 
                                     borderwidth=2, relief="solid", fg="black", bg="#ffdddd")
         explanation_label.pack(pady=10, fill='x', padx=10)
 
         affichage_bits_label = tk.Label(self.frame_controls, text="Les bits gardés sont:",
-                               font=("TkDefaultFont", 13))
+                               font=("Tahoma", 13))
         affichage_bits_label.pack()
 
         filtered_bits_alice = []
@@ -378,8 +378,8 @@ class Application(tk.Tk):
         print("Bits de Bob après filtrage:", self.bits_bob_str)
 
         # Création des labels pour l'affichage
-        filtered_alice_label = tk.Label(self.frame_controls, text=f"Bits d'Alice après filtrage: {self.bits_alice_str}", font=("TkDefaultFont", 13))
-        filtered_bob_label = tk.Label(self.frame_controls, text=f"Bits de Bob après filtrage: {self.bits_bob_str}", font=("TkDefaultFont", 13))
+        filtered_alice_label = tk.Label(self.frame_controls, text=f"Bits d'Alice après filtrage: {self.bits_alice_str}", font=("Tahoma", 13))
+        filtered_bob_label = tk.Label(self.frame_controls, text=f"Bits de Bob après filtrage: {self.bits_bob_str}", font=("Tahoma", 13))
 
         filtered_alice_label.pack()
         filtered_bob_label.pack()
@@ -401,7 +401,7 @@ class Application(tk.Tk):
         self.btn_conclusion_intercept.pack_forget()
 
         conclusion_label = tk.Label(self.frame_controls, text="Conclusion de la simulation:",
-                               font=("TkDefaultFont", 18), fg="red")
+                               font=("Tahoma", 18), fg="red")
         conclusion_label.pack()
 
         explanation_text = (
@@ -414,8 +414,8 @@ class Application(tk.Tk):
             "garantissant la sécurité de la clé partagée tant que les principes de la mécanique "
             "quantique sont respectés."
         )
-        explanation_label = tk.Label(self.frame_controls, text=explanation_text, font=("TkDefaultFont", 13),
-                                    justify=tk.CENTER, wraplength=600, 
+        explanation_label = tk.Label(self.frame_controls, text=explanation_text, font=("Tahoma", 13),
+                                    justify=tk.CENTER, wraplength=700, 
                                     borderwidth=2, relief="solid", fg="black", bg="#ffdddd")
         explanation_label.pack(pady=10, fill='x', padx=10)
 
@@ -426,10 +426,10 @@ class Application(tk.Tk):
         count_bits_bob = self.bits_bob_str.count('1')
 
         # Affichage du nombre de bits "1"
-        stats_alice_label = tk.Label(self.frame_controls, text=f"Nombre de bit(s) '1' d'Alice après filtrage : {count_bits_alice}", font=("TkDefaultFont", 13))
+        stats_alice_label = tk.Label(self.frame_controls, text=f"Nombre de bit(s) '1' d'Alice après filtrage : {count_bits_alice}", font=("Tahoma", 13))
         stats_alice_label.pack()
 
-        stats_bob_label = tk.Label(self.frame_controls, text=f"Nombre de bit(s) '1' de Bob après filtrage : {count_bits_bob}", font=("TkDefaultFont", 13))
+        stats_bob_label = tk.Label(self.frame_controls, text=f"Nombre de bit(s) '1' de Bob après filtrage : {count_bits_bob}", font=("Tahoma", 13))
         stats_bob_label.pack()
 
         tk.Label(self.frame_controls, height=1).pack()
@@ -440,7 +440,7 @@ class Application(tk.Tk):
         else:
             interception_msg = "Le nombre de bits '1' est identique entre Alice et Bob, indiquant que l'interception d'Eve a fonctionné. Cela arrive lorsqu'Eve a choisi les bonnes bases pour intercepter les qubits, ou bien si elle n'a pas choisi la même base qu'Alice mais que le bit envoyé à Bob est resté le même que celui envoyé par Alice. Cela arrive dans environ 3% des cas pour un code sur 12 bits. Il se peut aussi que pour les mêmes bases choisies (entre Alice et Bob), un bit d'Alice à 0 soit devenu 1 pour Bob, et qu'un autre bit 1 soit devenu 0, ce qui fait qu'Alice et Bob se retrouvent également avec le même nombre de bit(s) 1, ne vérifiant pas totalement si la communication a été intercepté. Pour des messages codés sur plus de bits, il est possible de donner le nombre de bit à 1 sur des échantillons du code, afin d'être sûr que la communication n'a pas été intercepté. Voyons voir ce qu'il s'est passé :"
         
-        interception_label = tk.Label(self.frame_controls, text=interception_msg, font=("TkDefaultFont", 13, "bold"), justify=tk.CENTER, wraplength=600)
+        interception_label = tk.Label(self.frame_controls, text=interception_msg, font=("Tahoma", 13, "bold"), justify=tk.CENTER, wraplength=700)
         interception_label.pack()
         tk.Label(self.frame_controls, height=1).pack()
         self.display_comparison_table()
@@ -450,9 +450,9 @@ class Application(tk.Tk):
         comparison_frame.pack()
 
         indices = [str(i+1) for i in range(12)]
-        tk.Label(comparison_frame, text="Indice :", font=("TkDefaultFont", 13, "bold")).grid(row=0, column=0, sticky="e")
+        tk.Label(comparison_frame, text="Indice :", font=("Tahoma", 13, "bold")).grid(row=0, column=0, sticky="e")
         for idx, val in enumerate(indices):
-            tk.Label(comparison_frame, text=val + ' ', font=("TkDefaultFont", 13)).grid(row=0, column=idx+1, sticky="e")
+            tk.Label(comparison_frame, text=val + ' ', font=("Tahoma", 13)).grid(row=0, column=idx+1, sticky="e")
 
         data_rows = [
             ("Bases d'Alice :", ['+ ' if b == 0 else 'X ' for b in self.bases_alice]),
@@ -464,11 +464,11 @@ class Application(tk.Tk):
         ]
 
         for row_idx, (label, row_data) in enumerate(data_rows):
-            tk.Label(comparison_frame, text=label, font=("TkDefaultFont", 13)).grid(row=row_idx+1, column=0, sticky="e")
+            tk.Label(comparison_frame, text=label, font=("Tahoma", 13)).grid(row=row_idx+1, column=0, sticky="e")
             for idx, item in enumerate(row_data):
                 font_style = "bold" if self.bases_alice[idx] == self.bases_bob[idx] else "normal"
                 color = "red" if self.should_be_red(idx) else "black"
-                tk.Label(comparison_frame, text=item, font=("TkDefaultFont", 13, font_style), fg=color).grid(row=row_idx+1, column=idx+1, sticky="e")
+                tk.Label(comparison_frame, text=item, font=("Tahoma", 13, font_style), fg=color).grid(row=row_idx+1, column=idx+1, sticky="e")
 
         # Explications sous le tableau
         explanation_frame = tk.Frame(self.frame_controls)
@@ -477,7 +477,7 @@ class Application(tk.Tk):
         for idx in range(12):
             if self.should_be_red(idx):
                 exp_text = self.create_explanation_text(idx)
-                tk.Label(explanation_frame, text=exp_text, font=("TkDefaultFont", 13), wraplength=600).grid(sticky="w")
+                tk.Label(explanation_frame, text=exp_text, font=("Tahoma", 13), wraplength=700).grid(sticky="w")
 
         # Cadre pour le bouton de rechargement de la simulation
         button_frame = tk.Frame(self.frame_controls)
@@ -503,7 +503,7 @@ class Application(tk.Tk):
         self.btn_conclusion_no_intercept.pack_forget()
 
         conclusion_label = tk.Label(self.frame_controls, text="Conclusion de la simulation:",
-                               font=("TkDefaultFont", 18), fg="red")
+                               font=("Tahoma", 18), fg="red")
         conclusion_label.pack()
 
         explanation_text = (
@@ -516,8 +516,8 @@ class Application(tk.Tk):
             "garantissant la sécurité de la clé partagée tant que les principes de la mécanique "
             "quantique sont respectés."
         )
-        explanation_label = tk.Label(self.frame_controls, text=explanation_text, font=("TkDefaultFont", 13),
-                                    justify=tk.CENTER, wraplength=600, 
+        explanation_label = tk.Label(self.frame_controls, text=explanation_text, font=("Tahoma", 13),
+                                    justify=tk.CENTER, wraplength=700, 
                                     borderwidth=2, relief="solid", fg="black", bg="#ffdddd")
         explanation_label.pack(pady=10, fill='x', padx=10)
 
