@@ -5,6 +5,7 @@ class Application(tk.Tk):
     def __init__(self):
         super().__init__()
         self.initialize_ui()
+        self.intercept = False 
 
     def initialize_ui(self):
         self.title("Simulation du protocole BB84")
@@ -134,10 +135,12 @@ class Application(tk.Tk):
         self.btn_no_intercept = tk.Button(self.intercept_choice_frame, text="Non", command=self.bob_choice_no_intercept)
         self.btn_no_intercept.pack(side=tk.LEFT, padx=10, expand=True)
 
-        self.btn_intercept = tk.Button(self.intercept_choice_frame, text="Oui", command=self.bob_choice_intercept)
+        self.btn_intercept = tk.Button(self.intercept_choice_frame, text="Oui", command=self.eve_intercept)
         self.btn_intercept.pack(side=tk.LEFT, padx=10, expand=True)
 
     def bob_choice_no_intercept(self):
+
+        self.intercept = False
 
         self.intercept_choice_frame.destroy()
 
@@ -211,6 +214,115 @@ class Application(tk.Tk):
         self.btn_sup_some_bits = tk.Button(self.frame_controls, text="Alice et Bob ne gardent que les bits pour lesquels ils ont choisi les mêmes bases", command=self.sup_some_bits)
         self.btn_sup_some_bits.pack(side=tk.LEFT)
 
+    def eve_intercept(self):
+        self.intercept = True
+
+        self.intercept_choice_frame.destroy()
+
+        # Message indiquant le choix d'Eve
+        message_label = tk.Label(self.frame_controls, text="Vous avez décidé de continuer la simulation avec un intercepteur (Eve).", font=("TkDefaultFont", 13), fg="red")
+        message_label.pack(pady=10)
+
+        # Randomiser les bases pour Eve et simuler la mesure des qubits
+        self.bases_eve = np.random.randint(2, size=12).tolist()
+        self.bits_eve = []
+        for bit, base_alice, base_eve in zip(self.bits_alice, self.bases_alice, self.bases_eve):
+            if base_alice == base_eve:
+                self.bits_eve.append(bit)
+            else:
+                self.bits_eve.append(np.random.randint(2))
+
+        # Affichage des bases et des résultats d'Eve
+        tk.Label(self.frame_controls, text="Bases d'Eve :", font=("TkDefaultFont", 13)).pack()
+        self.bases_label = tk.Label(self.frame_controls, text="   ".join('+' if b == 0 else 'X' for b in self.bases_eve), font=("TkDefaultFont", 20), fg="black")
+        self.bases_label.pack()
+
+        tk.Label(self.frame_controls, text="Bits d'Eve :", font=("TkDefaultFont", 13)).pack()
+        self.bits_label = tk.Label(self.frame_controls, text="   ".join(str(b) for b in self.bits_eve), font=("TkDefaultFont", 20), fg="black")
+        self.bits_label.pack()
+
+        self.create_eve_results_mask()
+        
+
+    def create_eve_results_mask(self):
+        # Crée un cadre pour masquer les résultats d'Eve
+        self.mask_frame = tk.Frame(self.frame_controls, background='grey', height=100, width=400)
+        self.mask_frame.place(in_=self.bases_label, relx=0.5, rely=-0.6, anchor='n')
+        
+        # Ajout d'un bouton pour révéler les résultats
+        self.btn_show_results = tk.Button(self.frame_controls, text="Dévoiler l'interception d'Eve", command=self.reveal_eve_interception)
+        self.btn_show_results.pack()
+
+        # Désactiver le bouton
+        self.btn_show_results.config(state='disabled')
+        
+        
+        self.bob_choice_intercept()
+    
+    def eve_show_result(self):
+    # Réactiver le bouton "Afficher l'interception d'Eve"
+        self.btn_show_results.config(state='normal')
+
+    def reveal_eve_interception(self):
+        # Enlever le cadre masquant
+        self.mask_frame.destroy()
+        self.btn_show_results.pack_forget()
+        
+    def bob_choice_intercept(self):
+        frame_bases = tk.Frame(self.scrollable_frame)
+        frame_bases.pack(pady=10)
+        tk.Label(frame_bases, text="Bases de Bob:").grid(row=0, columnspan=13)
+        # Bouton pour choisir les bases aléatoirement
+        self.btn_random_bases_bob = tk.Button(frame_bases, text="Choix aléatoire", command=self.randomize_bases_bob)
+        self.btn_random_bases_bob.grid(row=1, column=12)  # Positionnement du bouton
+        self.bases_buttons_bob = self.create_bit_buttons(frame_bases, self.update_base_bob, 1, ['+', 'X'])
+
+        # Bouton pour mesurer les qubits
+        self.frame_controls = tk.Frame(self.scrollable_frame)
+        self.frame_controls.pack(pady=10)
+        self.btn_measure_qubits = tk.Button(self.frame_controls, text="Mesure des qubits par Bob",
+                                            command=self.measure_qubits_intercept)
+        self.btn_measure_qubits.pack(side=tk.LEFT)
+
+    def measure_qubits_intercept(self):
+        print("Test!")
+        for btn in self.bases_buttons_bob:
+            btn.config(state=tk.DISABLED)
+        self.btn_random_bases_bob.config(state=tk.DISABLED)
+        
+        self.btn_measure_qubits.pack_forget()
+
+        self.bits_bob = []
+        for bit_alice, base_alice, base_bob, bit_eve, base_eve in zip(self.bits_alice, self.bases_alice, self.bases_bob, self.bits_eve, self.bases_eve):
+            if base_alice == base_bob:
+                if base_alice != base_eve and bit_alice != bit_eve:
+                    self.bits_bob.append(bit_eve)  # Bob obtient le bit d'Eve
+                elif base_alice == base_eve and bit_alice == bit_eve:
+                    self.bits_bob.append(bit_eve)  # Bob obtient le bit d'Eve si Eve a le même bit et la même base
+                else:
+                    self.bits_bob.append(bit_alice)  # Bob obtient le même bit qu'Alice normalement
+            else:
+                self.bits_bob.append(np.random.randint(2))  # Résultat aléatoire si les bases diffèrent
+
+        # Affichage des résultats
+        resultat_bob_label = tk.Label(self.frame_controls, text="Bits mesurés par Bob:\n",
+                                    font=("TkDefaultFont", 13))
+        resultat_bob_label.pack()
+
+        results_str = "   ".join([str(bit) for bit in self.bits_bob])
+        states_label = tk.Label(self.frame_controls, text=results_str, font=("TkDefaultFont", 23))
+        states_label.pack()
+
+        print("Mesure des qubits avec interception lancée!")
+        print("Bases d'Alice:", ['+' if base == 0 else 'X' for base in self.bases_alice])
+        print("Bits d'Alice:", ['0' if bit == 0 else '1' for bit in self.bits_alice])
+        print("Bases de Bob:", ['+' if base == 0 else 'X' for base in self.bases_bob])
+        print("Mesures de Bob:", self.bits_bob)
+
+        tk.Label(self.frame_controls, height=1).pack()
+        self.btn_sup_some_bits = tk.Button(self.frame_controls, text="Alice et Bob ne gardent que les bits pour lesquels ils ont choisi les mêmes bases", command=self.sup_some_bits)
+        self.btn_sup_some_bits.pack(side=tk.LEFT)
+
     def sup_some_bits(self):
         self.btn_sup_some_bits.pack_forget()
 
@@ -254,11 +366,46 @@ class Application(tk.Tk):
 
         tk.Label(self.frame_controls, height=1).pack()
 
-        self.btn_conclusion_no_intercept = tk.Button(self.frame_controls, text="Conclusion de la simulation",
-                                            command=self.conclusion_no_intercept)
-        self.btn_conclusion_no_intercept.pack()
+        if self.intercept:
+            self.btn_conclusion_no_intercept = tk.Button(self.frame_controls, text="Conclusion de la simulation avec interception",
+                                            command=self.conclusion_intercept)
+            self.btn_conclusion_no_intercept.pack()
+            tk.Label(self.frame_controls, height=1).pack()
+        else:
+            self.btn_conclusion_no_intercept = tk.Button(self.frame_controls, text="Conclusion de la simulation",
+                                                command=self.conclusion_no_intercept)
+            self.btn_conclusion_no_intercept.pack()
+            tk.Label(self.frame_controls, height=1).pack()
+
+    def conclusion_intercept(self):
+        self.btn_conclusion_no_intercept.pack_forget()
+
+        conclusion_label = tk.Label(self.frame_controls, text="SANS INTERCEPTION: Conclusion de la simulation:",
+                               font=("TkDefaultFont", 18), fg="red")
+        conclusion_label.pack()
+
+        explanation_text = (
+            "Lorsque la communication n'a pas été interceptée, Alice et Bob ont "
+            "des séquences de bits identiques pour les bases correspondantes. Pour "
+            "vérifier cela sans révéler leur clé, ils peuvent comparer publiquement "
+            "une statistique de leur clé, comme le nombre de bits à '1'. Si la statistique "
+            "est identique, ils peuvent être confiants que la clé n'a pas été compromise. "
+            "Cette technique de validation est un élément crucial de la cryptographie quantique, "
+            "garantissant la sécurité de la clé partagée tant que les principes de la mécanique "
+            "quantique sont respectés."
+        )
+        explanation_label = tk.Label(self.frame_controls, text=explanation_text, font=("TkDefaultFont", 13),
+                                    justify=tk.CENTER, wraplength=500, 
+                                    borderwidth=2, relief="solid", fg="black", bg="#ffdddd")
+        explanation_label.pack(pady=10, fill='x', padx=10)
 
         tk.Label(self.frame_controls, height=1).pack()
+
+        self.btn_reload_simulation = tk.Button(self.frame_controls, text="Recommencer une simulation",
+                                            command=self.reload_simulation)
+        self.btn_reload_simulation.pack()
+
+        tk.Label(self.frame_controls, height=2).pack()
 
     def conclusion_no_intercept(self):
         self.btn_conclusion_no_intercept.pack_forget()
@@ -290,8 +437,6 @@ class Application(tk.Tk):
 
         tk.Label(self.frame_controls, height=2).pack()
 
-    def bob_choice_intercept(self):
-        print("Intercepteur choisi!")
 
     def reload_simulation(self):
         self.destroy()
