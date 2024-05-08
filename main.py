@@ -318,15 +318,13 @@ class Application(tk.Tk):
 
         self.bits_bob = []
         for bit_alice, base_alice, base_bob, bit_eve, base_eve in zip(self.bits_alice, self.bases_alice, self.bases_bob, self.bits_eve, self.bases_eve):
-            if base_alice == base_bob:
-                if base_alice != base_eve and bit_alice != bit_eve:
+            if base_alice == base_eve:
+                if base_bob == base_eve:  # Si Alice, Bob et Eve utilisent la même base
                     self.bits_bob.append(bit_eve)  # Bob obtient le bit d'Eve
-                elif base_alice == base_eve and bit_alice == bit_eve:
-                    self.bits_bob.append(bit_eve)  # Bob obtient le bit d'Eve si Eve a le même bit et la même base
                 else:
-                    self.bits_bob.append(bit_alice)  # Bob obtient le même bit qu'Alice normalement
-            else:
-                self.bits_bob.append(np.random.randint(2))  # Résultat aléatoire si les bases diffèrent
+                    self.bits_bob.append(np.random.randint(2))
+            if base_alice != base_eve:
+                self.bits_bob.append(bit_eve)  # Bob obtient le bit d'Eve
 
         # Affichage des résultats
         resultat_bob_label = tk.Label(self.frame_controls, text="Bits mesurés par Bob:\n",
