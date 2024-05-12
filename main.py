@@ -1,5 +1,55 @@
 import tkinter as tk
 import numpy as np
+from tkinter import *
+from PIL import Image, ImageTk
+
+class LaunchPage(tk.Tk):
+    def __init__(self):
+        super().__init__()
+
+        self.create_welcome_screen()
+        self.intercept = False
+        self.configure(bg='#000000')
+
+        # Charger l'image de fond
+        #original_image = Image.open("crypto.jpeg")  # Ouvre l'image JPEG
+        #resized_image = original_image.resize((950, 400))
+        #self.background_photo = ImageTk.PhotoImage(resized_image)
+        #background_label = tk.Label(self, image=self.background_photo, borderwidth=0, highlightthickness=0, relief='flat')
+        #background_label.place(x=25, y=250)
+
+        image = Image.open("crypto.jpeg")
+        photo = ImageTk.PhotoImage(image)
+
+        # Créer un label pour l'image sans bordure ni relief
+        label = tk.Label(self, image=photo, borderwidth=0, highlightthickness=0, relief='flat')
+        label.image = photo  # Garder une référence de l'image pour éviter le garbage collection
+        label.pack()
+
+    def create_welcome_screen(self):
+        self.title("Simulation du protocole BB84")
+        self.geometry("1000x750")
+        welcome_frame = tk.Frame(self, bg='#000000')
+        welcome_frame.pack(pady=30, padx=30, fill="both", expand=True)
+
+        title = tk.Label(welcome_frame, text="Bienvenue dans la simulation du protocole BB84",
+                         font=("Arial", 25, "bold"), bg='#000000', fg='white')
+        title.pack(pady=(10, 10))
+
+        explanation = tk.Text(welcome_frame, height=3, font=("Arial", 17), bg='#000000', wrap="word", bd=0, highlightthickness=0, fg='white')
+        explanation.insert("1.0", "     Dans le cadre du module IF.1204 - SCIENCES DU NUMERIQUE à l’ISEP, nous avons été amené à produire un état de l’art sur le sujet « Cryptographie quantique ». Afin de compléter cela, nous avons développé une simulation du protocole de cryptographie quantique BB84.")
+        explanation.config(state="disabled")
+        explanation.pack(pady=(20, 30))
+
+        start_button = tk.Button(welcome_frame, text="Lancer la simulation", font=("Arial", 30), bg='#000000', bd=0, highlightthickness=0,
+                                 command=self.launch_simulation)
+        start_button.pack(pady=0, padx=0)
+
+    def launch_simulation(self):
+        self.destroy()
+        # Crée une nouvelle instance de la fenêtre
+        new_app = Application()
+        new_app.mainloop()
 
 class Application(tk.Tk):
     def __init__(self):
@@ -535,5 +585,5 @@ class Application(tk.Tk):
         new_app.mainloop()
 
 if __name__ == "__main__":
-    app = Application()
+    app = LaunchPage()
     app.mainloop()
