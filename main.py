@@ -80,7 +80,7 @@ class Application(tk.Tk):
         buttons = []
         for i in range(12):
             btn_text = labels[0]
-            btn = tk.Button(parent, text=btn_text, width=5, height=3, font=("Arial", 13),
+            btn = tk.Button(parent, text=' ', width=5, height=3, font=("Arial", 13),
                             command=lambda i=i: update_function(i, labels))
             btn.grid(row=row_start, column=i, sticky='nsew', padx=8, pady=10)
             buttons.append(btn)
