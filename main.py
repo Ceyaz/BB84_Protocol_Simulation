@@ -28,7 +28,7 @@ class LaunchPage(tk.Tk):
 
     def create_welcome_screen(self):
         self.title("Simulation du protocole BB84")
-        self.geometry("1000x750")
+        self.geometry("1000x720")
         welcome_frame = tk.Frame(self, bg='#000000')
         welcome_frame.pack(pady=30, padx=30, fill="both", expand=True)
 
