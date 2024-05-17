@@ -11,19 +11,11 @@ class LaunchPage(tk.Tk):
         self.intercept = False
         self.configure(bg='#000000')
 
-        # Charger l'image de fond
-        #original_image = Image.open("crypto.jpeg")  # Ouvre l'image JPEG
-        #resized_image = original_image.resize((950, 400))
-        #self.background_photo = ImageTk.PhotoImage(resized_image)
-        #background_label = tk.Label(self, image=self.background_photo, borderwidth=0, highlightthickness=0, relief='flat')
-        #background_label.place(x=25, y=250)
-
         image = Image.open("crypto.jpeg")
         photo = ImageTk.PhotoImage(image)
 
-        # Créer un label pour l'image sans bordure ni relief
         label = tk.Label(self, image=photo, borderwidth=0, highlightthickness=0, relief='flat')
-        label.image = photo  # Garder une référence de l'image pour éviter le garbage collection
+        label.image = photo  
         label.pack()
 
     def create_welcome_screen(self):
@@ -59,13 +51,11 @@ class Application(tk.Tk):
 
     def initialize_ui(self):
         self.title("Simulation du protocole BB84")
-        self.geometry("1000x700")  # Ajustez la taille selon vos besoins
+        self.geometry("1000x700")  
 
-        # Créez un Canvas et une Scrollbar
         self.canvas = tk.Canvas(self)
         self.scrollbar = tk.Scrollbar(self, orient="vertical", command=self.canvas.yview)
         
-        # Placez le Canvas et la Scrollbar dans la fenêtre
         self.scrollable_frame = tk.Frame(self.canvas)
         self.scrollable_frame.bind(
             "<Configure>",
@@ -175,7 +165,6 @@ class Application(tk.Tk):
                                font=("Tahoma", 14, "bold"))
         intro_label.pack()
 
-        # Génération et affichage des états quantiques avec une taille de police plus grande
         quantum_states_str = "   ".join(self.translate_to_quantum_states())
         quantum_states_str_left = quantum_states_str + "                 "
         states_label = tk.Label(self.frame_controls, text=quantum_states_str_left, font=("TkDefaultFont", 23))
@@ -290,7 +279,6 @@ class Application(tk.Tk):
 
         self.intercept_choice_frame.destroy()
 
-        # Message indiquant le choix d'Eve
         message_label = tk.Label(self.frame_controls, text="Vous avez décidé de continuer la simulation avec un intercepteur (Eve).", font=("Tahoma", 14, "bold"), fg="red")
         message_label.pack(pady=10)
 
@@ -310,27 +298,10 @@ class Application(tk.Tk):
             else:
                 self.bits_eve.append(np.random.randint(2))
 
-        # Affichage des bases et des résultats d'Eve
-        #tk.Label(self.frame_controls, text="Bases d'Eve :", font=("Tahoma", 13)).pack()
-        #self.bases_label = tk.Label(self.frame_controls, text="   ".join('+' if b == 0 else 'X' for b in self.bases_eve), font=("Tahoma", 20), fg="black")
-        #self.bases_label.pack()
-
-        #tk.Label(self.frame_controls, text="Bits d'Eve :", font=("Tahoma", 13)).pack()
-        #self.bits_label = tk.Label(self.frame_controls, text="   ".join(str(b) for b in self.bits_eve), font=("Tahoma", 20), fg="black")
-        #self.bits_label.pack()
-
         self.create_eve_results_mask()
         
 
     def create_eve_results_mask(self):
-        # Crée un cadre pour masquer les résultats d'Eve
-        #self.mask_frame = tk.Frame(self.frame_controls, background='grey', height=100, width=400)
-        #self.mask_frame.place(in_=self.bases_label, relx=0.5, rely=-0.6, anchor='n')
-        # Ajout d'un bouton pour révéler les résultats
-        #self.btn_show_results = tk.Button(self.frame_controls, text="Dévoiler l'interception d'Eve", command=self.reveal_eve_interception)
-        #self.btn_show_results.pack()
-        # Désactiver le bouton
-        #self.btn_show_results.config(state='disabled')
         self.bob_choice_intercept()
     
     def eve_show_result(self):
@@ -398,7 +369,6 @@ class Application(tk.Tk):
     def sup_some_bits(self):
         self.btn_sup_some_bits.pack_forget()
 
-        # Texte explicatif
         explanation_text = (
             "Alice et Bob comparent publiquement leurs bases et ne conservent que les bits pour lesquels ils ont utilisé la même base. Car les bits restants sont censés être les mêmes pour Alice et Bob. Eve, l'intercepteur, a pu modifier certains bits, mais Alice et Bob ne peuvent pas savoir lesquels. Ils peuvent donc comparer les bits restants pour vérifier si la communication a été interceptée."
         )
@@ -425,7 +395,6 @@ class Application(tk.Tk):
         print("Bits d'Alice après filtrage:", self.bits_alice_str)
         print("Bits de Bob après filtrage:", self.bits_bob_str)
 
-        # Création des labels pour l'affichage
         filtered_alice_label = tk.Label(self.frame_controls, text=f"Bits d'Alice après filtrage: {self.bits_alice_str}", font=("Tahoma", 13))
         filtered_bob_label = tk.Label(self.frame_controls, text=f"Bits de Bob après filtrage: {self.bits_bob_str}", font=("Tahoma", 13))
 
