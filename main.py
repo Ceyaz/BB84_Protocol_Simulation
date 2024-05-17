@@ -41,7 +41,7 @@ class LaunchPage(tk.Tk):
         explanation.config(state="disabled")
         explanation.pack(pady=(20, 30))
 
-        start_button = tk.Button(welcome_frame, text="Lancer la simulation", font=("Tahoma", 30), bg='#000000', bd=0, highlightthickness=0,
+        start_button = tk.Button(welcome_frame, text="Lancer la simulation", font=("Tahoma", 30), bg='white', fg='blue', bd=0, highlightthickness=0,
                                  command=self.launch_simulation)
         start_button.pack(pady=0, padx=0)
 
