@@ -33,15 +33,15 @@ class LaunchPage(tk.Tk):
         welcome_frame.pack(pady=30, padx=30, fill="both", expand=True)
 
         title = tk.Label(welcome_frame, text="Bienvenue dans la simulation du protocole BB84",
-                         font=("Arial", 25, "bold"), bg='#000000', fg='white')
+                         font=("Tahoma", 25, "bold"), bg='#000000', fg='white')
         title.pack(pady=(10, 10))
 
-        explanation = tk.Text(welcome_frame, height=3, font=("Arial", 17), bg='#000000', wrap="word", bd=0, highlightthickness=0, fg='white')
+        explanation = tk.Text(welcome_frame, height=3, font=("Tahoma", 17), bg='#000000', wrap="word", bd=0, highlightthickness=0, fg='white')
         explanation.insert("1.0", "     Dans le cadre du module IF.1204 - SCIENCES DU NUMERIQUE à l’ISEP, nous avons été amené à produire un état de l’art sur le sujet « Cryptographie quantique ». Afin de compléter cela, nous avons développé une simulation du protocole de cryptographie quantique BB84.")
         explanation.config(state="disabled")
         explanation.pack(pady=(20, 30))
 
-        start_button = tk.Button(welcome_frame, text="Lancer la simulation", font=("Arial", 30), bg='#000000', bd=0, highlightthickness=0,
+        start_button = tk.Button(welcome_frame, text="Lancer la simulation", font=("Tahoma", 30), bg='#000000', bd=0, highlightthickness=0,
                                  command=self.launch_simulation)
         start_button.pack(pady=0, padx=0)
 
@@ -130,7 +130,7 @@ class Application(tk.Tk):
         buttons = []
         for i in range(12):
             btn_text = labels[0]
-            btn = tk.Button(parent, text=' ', width=5, height=3, font=("Arial", 13),
+            btn = tk.Button(parent, text=' ', width=5, height=3, font=("Tahoma", 13),
                             command=lambda i=i: update_function(i, labels))
             btn.grid(row=row_start, column=i, sticky='nsew', padx=8, pady=10)
             buttons.append(btn)
